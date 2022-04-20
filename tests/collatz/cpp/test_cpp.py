@@ -23,7 +23,7 @@ def run_cloopv(x0, x1, niter):
 
     print(f"x={x}")
     print(f"n={n}")
-    
+   
     cpp.cloopv(x,n,niter)
     
     print(f"after {niter} iterations:")
@@ -48,12 +48,56 @@ def test_cloopv_1_30():
     niter = 10
     run_cloopv( x0, x1, niter )
     
+
+def run_cloopv1(x0, x1):
+    """verify cloopv for x in [x0,x1] using niter collatz iterations before checking convergence"""
+    
+
+def test_cloopv1_1_30():
+    x0 = 1
+    x1 = 30
+    x = np.arange(x0, x1+1, dtype=int)
+    n = np.zeros_like(x)
+    nx = x.shape[0]
+
+    print(f"x={x}")
+    print(f"n={n}")
+   
+    cpp.cloopv1(x,n)
+    
+    print(f"n={n}")
+    print("checking the results:")
+    for i in range(nx):
+        expected = collatz.cloop0(x[i])
+        assert(expected == n[i])
+    
+
+def test_cloopv1b_1_30():
+    x0 = 2
+    x1 = 30
+    x = np.arange(x0, x1+1, dtype=int)
+    n = np.zeros_like(x)
+    nx = x.shape[0]
+
+    print(f"x={x}")
+    print(f"n={n}")
+   
+    cpp.cloopv1b(x,n)
+    
+    print(f"n={n}")
+    print("checking the results:")
+    for i in range(nx):
+        expected = collatz.cloop0(x[i])
+        print(f"{i}, {expected} =? {n[i]}")
+        assert(expected == n[i])
+    
+
 #===============================================================================
 # The code below is for debugging a particular test in eclipse/pydev.
 # (normally all tests are run with pytest)
 #===============================================================================
 if __name__ == "__main__":
-    the_test_you_want_to_debug = test_cloopv_1_30
+    the_test_you_want_to_debug = test_cloopv1b_1_30
 
     print(f"__main__ running {the_test_you_want_to_debug} ...")
     the_test_you_want_to_debug()

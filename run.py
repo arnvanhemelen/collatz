@@ -10,7 +10,7 @@ if __name__ == "__main__":
     x0 = 5
     N = 100000
 
-    for block in range(100): # test successive blocks of N elements
+    for block in range(10): # test successive blocks of N elements
         x0 = 5 + block*N
         x1 = x0 + N
 
@@ -42,3 +42,19 @@ if __name__ == "__main__":
             print(f"niter={niter}")
             with Stopwatch("  SIMD cloop"):
                 collatz.cpp.cloopv(x, n, niter)
+
+        # Timing the SIMD cpp version with niter==1
+        # print("simd_cloop")
+        x = np.arange(x0, x1, dtype=int)
+        n = np.zeros_like(x)
+        print(f"niter=1 (cloopv1)")
+        with Stopwatch("  SIMD cloop"):
+            collatz.cpp.cloopv1(x, n)
+
+        # Timing the SIMD cpp version with niter==1
+        # print("simd_cloop")
+        x = np.arange(x0, x1, dtype=int)
+        n = np.zeros_like(x)
+        print(f"niter=1 (cloopv1b)")
+        with Stopwatch("  SIMD cloop"):
+            collatz.cpp.cloopv1b(x, n)
